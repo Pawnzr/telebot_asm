@@ -3,6 +3,7 @@ from app import create_directory, read_file
 import subprocess
 import os
 from env_var import authorized_users, TOKEN
+from sqlalchemy import create_engine, Column, Integer, String, Text
 
 authorized_users = authorized_users
 
@@ -32,9 +33,7 @@ class Target:
         result_file = f"./Result/{self.url}/httpx.txt"
         if self.subdomain_results is None:
             self.scan_subdomains()
-            
-
-            
+        if self.httpx_results is None:
             httpx_cmd = f"httpx -l ./Result/{self.url}/subdomain.txt -nc --no-fallback -tls-probe -csp-probe -title -vhost -td -status-code -fr -cdn -random-agent > {result_file}"
             subprocess.run(httpx_cmd, shell=True)
 
